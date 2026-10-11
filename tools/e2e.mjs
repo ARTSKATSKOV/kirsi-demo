@@ -526,7 +526,7 @@ await check('phone: short chip labels, Balcony visible without scrolling, select
   assert(listing < 200, `disclaimer + top bar + listing end at ${listing}px`);
 }, { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
 
-await check('disclaimers: EN + ET banner stays (light, ~28px), listing note without a dashed border, noindex kept', async (page) => {
+await check('disclaimers: EN + ET banner stays (light, ~28px), listing note without a dashed border, now indexable', async (page) => {
   await open(page);
   const s = await page.evaluate(() => {
     const d = document.querySelector('.disclaimer');
@@ -545,9 +545,9 @@ await check('disclaimers: EN + ET banner stays (light, ~28px), listing note with
   assert(s.h <= 30, `disclaimer is ${s.h}px tall`);
   assert(s.lum > 0.6, `disclaimer background is dark (luminance ${s.lum.toFixed(2)})`);
   assert(s.noteBorder === 'none' && /Conceptual layout — not an architectural drawing/.test(s.noteText), `listing note: ${s.noteBorder}`);
-  assert(s.robots === 'noindex,nofollow', `robots meta: ${s.robots}`);
+  assert(s.robots === 'index,follow', `robots meta: ${s.robots}`);
   const robotsTxt = await (await page.request.get(new URL('robots.txt', base).href)).text();
-  assert(/Disallow:\s*\/\s*$/m.test(robotsTxt), 'robots.txt no longer disallows all');
+  assert(/Allow:\s*\/\s*$/m.test(robotsTxt), 'robots.txt does not allow crawling');
 });
 
 await check('fonts: Inter + Newsreader self-hosted (woff2 from /fonts), no external requests', async (page) => {
