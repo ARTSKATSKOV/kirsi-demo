@@ -1,0 +1,16 @@
+{
+  "name": "concept-demo-tools",
+  "private": true,
+  "type": "module",
+  "description": "Dev-only tooling (unit tests, e2e, headless screenshots, static server for ../public). Not part of the site.",
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  },
+  "scripts": {
+    "serve": "node serve.mjs 8080",
+    "test": "node --import ./unit/register.mjs --test \"unit/*.test.mjs\"",
+    "e2e": "node e2e.mjs",
+    "screenshots": "node screenshot.mjs",
+    "review-shots": "node review-shots.mjs"
+  }
+}
